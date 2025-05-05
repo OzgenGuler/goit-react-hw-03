@@ -1,42 +1,47 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 
-import Description from "./components/Description/Description.jsx";
-import Options from "./components/Options/Options.jsx";
-import Feedback from "./components/Feedback/Feedback.jsx";
+import ContactForm from "./components/ContactForm";
+import ContactList from "./components/ContactList";
+import Contact from "./components/Contact";
+import SearchBox from "./components/SearchBox";
 
 function App() {
-  const localFeedback = JSON.parse(localStorage.getItem("feedback")) || {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  };
-
-  const [feedback, setFeedback] = useState(localFeedback);
-  const updateFeedback = (feedbackType) => {
-    setFeedback({
-      ...feedback,
-      [feedbackType]: feedback[feedbackType] + 1,
-    });
-
-    if (feedbackType === "reset") {
-      alert(
-        "Olumsuzluklar canını sıkmasın bunlardan ders çıkarmak ve anlamak senin elinde..Lotus çiçeğinin bataklıkta açtığını sakın unutma!"
-      );
-      setFeedback({ good: 0, neutral: 0, bad: 0 });
-    }
-  };
+  const [contacts, setContacts] = useState([]);
+  const [selectedContact, setSelectedContact] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    localStorage.setItem("feedback", JSON.stringify(feedback));
-  }, [feedback]);
+    const storedContacts = JSON.parse(localStorage.getItem("contacts")) || [];
+    setContacts(storedContacts);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  }, [contacts]);
 
   return (
-    <>
-      <Description />
-      <Options updateFeedback={updateFeedback} />
-      <Feedback data={feedback} />
-    </>
+    <div className="App">
+      <h1>Phonebook</h1>
+      <SearchBox searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <ContactForm
+        contacts={contacts}
+        setContacts={setContacts}
+        selectedContact={selectedContact}
+        setSelectedContact={setSelectedContact}
+      />
+      <ContactList
+        contacts={contacts}
+        searchTerm={searchTerm}
+        setSelectedContact={setSelectedContact}
+      />
+      {selectedContact && (
+        <Contact
+          contact={selectedContact}
+          setSelectedContact={setSelectedContact}
+        />
+      )}
+    </div>
   );
 }
 
