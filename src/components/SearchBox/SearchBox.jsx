@@ -1,6 +1,6 @@
 import React from "react";
 
-const SearchBox = ({ search }) => {
+const SearchBox = ({ value, onChange }) => {
   return (
     <div
       style={{
@@ -12,11 +12,12 @@ const SearchBox = ({ search }) => {
         gap: "20px",
       }}
     >
-      <label htmlFor="search">Find Contacts by Name </label>
+      <label>Find Contacts by Name </label>
       <input
         type="text"
         id="search"
-        onChange={(evt) => search(evt.target.value)}
+        value={value}
+        onChange={onChange}
         placeholder="Search by name"
       />
     </div>

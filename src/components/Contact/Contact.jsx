@@ -1,6 +1,7 @@
 import React from "react";
 
 const Contact = ({ contact, onDelete }) => {
+  // const Contact = ({ id, name, number, handleContactDelete }) => {
   return (
     <div
       style={{
@@ -14,11 +15,20 @@ const Contact = ({ contact, onDelete }) => {
     >
       <div>
         <p>
-          <strong>👤{contact.name}</strong>
+          <strong>👤 {contact.name}</strong>
         </p>
         <p>📞 {contact.number}</p>
       </div>
       <button onClick={() => onDelete(contact.id)}>Delete</button>
+      {/* <div>
+        <p>
+          <strong>👤{name}</strong>
+        </p>
+        <p>📞 {number}</p>
+      </div>
+      <button onClick={() => handleContactDelete(id, name, number)}>
+        Delete
+      </button> */}
     </div>
   );
 };
